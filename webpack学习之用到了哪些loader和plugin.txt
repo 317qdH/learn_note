@@ -1,3 +1,5 @@
+参考： https://github.com/vortesnail/blog
+ 
  <=>意为等价于
  npm install <=> npm i 
  --save <=> -S		//发布到生产环境的依赖
