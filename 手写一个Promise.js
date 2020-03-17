@@ -1,10 +1,3 @@
-# learn_note
-
-一些笔记和学习资料
-
-## [手动实现一个Promise](https://github.com/317qdH/learn_note/blob/master/README.md)
-
-```javascript
 class cutPromise{
     constructor(executor){
     	//如果传入的不是函数，抛出异常
@@ -52,7 +45,3 @@ class cutPromise{
 
     
 }
-```
-
-
-
