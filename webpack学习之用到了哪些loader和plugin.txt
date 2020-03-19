@@ -1,4 +1,4 @@
-参考： https://github.com/vortesnail/blog
+﻿参考： https://github.com/vortesnail/blog
  
  <=>意为等价于
  npm install <=> npm i 
