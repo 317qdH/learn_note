@@ -8,7 +8,8 @@
  
  eg:
 
-你写 ES6 代码，需要babel转换成es5，转换完成后，我们只需要转换后的代码，上线的时候，直接把转换后的代码部署上线，不需要bebal了，上线了不需要，这就是devDependencies。
+你写 ES6 代码，需要babel转换成es5，转换完成后，我们只需要转换后的代码，上线的时候，直接把转换后的代码部署上线，不需要bebal了，
+上线了不需要，这就是devDependencies。
 如果你用了 jQuery，由于发布之后还是依赖jQuery，所以是dependencies。
  
  "start":"webpack --config ./config/webpack.common.config.js"
