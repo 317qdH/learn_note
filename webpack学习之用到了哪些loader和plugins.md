@@ -115,5 +115,175 @@ module:{
     }
   ]
 }
+
+less
+less-loader 
+node-sass
+sass-loader
+
+module:{
+  rules:[
+    {
+      test:/\.less$/,
+      use:[
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        'less-loader'
+      ]
+    },
+    {
+      test:/\.(sass|scss)$/,
+      use:[
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        'sass-loader'
+      ]
+    },
+    {
+	  test:/\.(eot|ttf|svg|woff|woff2)/,
+	  use:[
+	    loader:'file-loader',
+	    options:{
+	      name:'[name]_[hash].[ext]',
+	      outputPath:'font/'
+	    }
+	  ]
+	}
+  ]
+}
+```
+
+### file-loader url-loader
+
+处理图片，字体图标，将小的图片转成base格式插入到bundle.js文件中
+
+```
+module:{
+  rules:[
+    test:/\.(jpg|png|gif)$/,
+    use:{
+      loader:'url-loader',
+      options:{
+        name:'[name].[ext]',
+        outputPath:'images/',
+        limit:8192
+      }
+    }
+  ]
+}
+```
+
+### mini-css-extract-plugin
+
+通过引入外部css文件进行样式引入
+
+```
+plugins:[
+  //...
+  new MiniCssExtractPlugin({
+    filename:'css/[name].[hash].css',
+    chunkFilename:'css/[id].[hash].css',
+  }),
+]
+
+module:{
+  rules:[
+    {
+      test:/\.css$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader'
+      ]
+    }
+  ]
+}
+```
+
+### optimize-css-assets-webpack-plugin 
+
+压缩打包出的css 文件
+
+```
+optimization:{
+  minimizer:[
+    new UglifyJsPlugin(),
+    new OptimizeCssAssetsPlugin({
+	  assetNameRegExp:/\.css$/g,//匹配需要优化或者压缩的资源名
+	  cssProcessor:requier('cssnano'),//用于压缩和优化css的处理器
+	  cssProcessorPluginOptions:{
+	  //传递g给cssProcessor的插件选项，discardComments去除注释
+        proset:['default',{ discardComments:{ removeAll:true } }]
+      },
+      canPrint:true//表示插件能够在console中打印信息，默认值是true
+    })
+  ]
+}
+```
+
+## plugin
+
+### html-webpack-plugin
+
+```
+new HtmlWebpackPlugin({
+  filename:'index.html',//打包之后的html文件的名字
+  template:'public/index.html',//以我们自己定义的html为模板生成
+  inject:'body',//在body最底部引入js文件，如果是head，就是在head中引入js
+  minify:{
+    //压缩html文件
+    removeComments:true,//去除注释
+    collapseWhitespace:true//去除空格
+  }
+})
+
+tip:
+给打包出的js文件换个不确定的名字
+  这个操作是为了防止因为浏览器缓存带来的业务代码更新，而页面缺没有变化的问题，
+  加入客户端请求js文件的时候发现名字是一样的，那么他很有可能不发新的数据包，而直接用之前   缓存的文件，当然这和缓存策略有关。
+  使用内存变量[name]或[chunkhash]
+
+output:{
+  filename:'js/[name].[chunkhash:8].bindle.js'
+}
+```
+
+### clean-webpack-plugin
+
+打包编译前清理dist目录
+
+```
+new CleanWebpackPlugin();
+```
+
+### uglifyjs-webpack-plugin
+
+压缩js文件
+
+```
+optimization内配置minimizer参数
+
+optimization:{
+  minimizer:[ new UglifyJsPlugin ],
+  splitChunks:{...}
+}
+```
+
+### webpack-dev-server
+
+自动编译打包，开发环境下使用
+
+```
+devServer:{
+  contentBase:path.resolve(__dirname,'../dist'),
+  open:true,
+  port:9000,
+  compress:true,
+  hot:true
+},
+plugins:[
+  new webpack.HotModuleReplacementPlugin()
+]
+
+"dev":"webpack-dev-server --inline --config ./config/webpack.dev.config.js"
 ```
 
