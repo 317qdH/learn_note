@@ -49,6 +49,105 @@ function Sub(...arg){
 }
 ```
 
+### 一个原型链继承的面试题
+
+```javascript
+按照如下要求实现Person和Student对象
+
+a)Student继承Person
+
+b)Person包含一个实例变量name,包含一个方法printName
+
+c)Student包含一个实例变量score,包含一个实例方法printScore
+
+d)所有Person和Student对象之间共享一个方法
+
+
+原生写法
+	   function Student(score) {
+
+​        this.score = score;
+
+​        this.printScore = function() {
+
+​          console.log('Student的printScore方法')
+
+​        }
+
+​      }
+
+​      function Person(name) {
+
+​        this.name = name;
+
+​        this.printName = function () {
+
+​          console.log('person的printName方法')
+
+​        };
+
+
+
+​      }
+
+​      Person.prototype.comMethods = function () {
+
+​        console.log('共享的的comMethods方法')
+
+​      }
+
+​      Student.prototype = new Person('小红');
+
+​      Student.prototype.constructor = Student;
+
+​      var stu1 = new Student('12');
+
+​      var per1 = new Student('小人');
+
+​      stu1.printScore()
+
+​      stu1.comMethods()
+
+​      stu1.printName()
+
+​      per1.printName()
+
+​      per1.comMethods()
+
+ES6写法
+class Person{
+   constructor(name){
+       this.name = name;
+   }
+
+   printName(){
+       console.log('Person的printName方法')
+   }
+
+   commonMethods(){
+       console.log('我是共享方法')
+   }
+}
+
+class Student extends Person{
+ constructor(name,score){
+     super(name);
+     this.score - score;
+ }
+ printScore(){
+     console.log('我是student的printscore方法')
+ }
+
+}
+let stu = new Student('小红',11)
+let person = new Person('小紫');
+stu.printScore()
+person.printName();
+           console.log(stu.commonMethods===person.commonMethods);//true
+```
+
+
+
 ### 从浏览器地址栏输入url到现实页面的步骤
 
 1.查看缓存，请求资源在缓存中新鲜，
