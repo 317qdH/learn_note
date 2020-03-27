@@ -10,6 +10,8 @@
 
 [小程序wx.request请求封装及登录过期]([https://github.com/317qdH/learn_note/blob/master/%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAPromise.js])
 
+新增小程序优化
+
 ### 对象深拷贝
 
 ```javascript
@@ -26,27 +28,24 @@ function deepCopy(source){
 }
 ```
 
-### 实现一个new函数
+### 原型链的理解
 
 ```javascript
-functoin _new(executor,...arg){
-	let newObj = {};
-	newObj.__proto__ = executor.prototype;
-	executor.apply(newObj,...arg)
-	return newObj
+function Person(){
 }
-```
-
-### 原型继承
-
-```
-Sub.prototype = new Supper();//为了能看到父类型的方法
-Sub.prototype.constructor = Sub;//修正constructor属性
-
-//组合继承
-function Sub(...arg){
-	Supper.apply(this,...arg)//为了得到属性
+function Son(){
+    
 }
+var son = new Son();
+
+son.__proto__  => Son.prototype (原型对象)
+Son.prototype.constructor => Son(构造函数)
+Son => son (new方法)
+
+Son.prototype.__proto__ => Object.prototype
+Object.prototype.__proto__ => null
+原型链继承就是把子函数的原型指向父函数的实例对象,让实例去找父类的原型
+如果直接把子函数的原型指向父函数的原型，会覆盖父函数的原型，就不是继承了
 ```
 
 ### 一个原型链继承的面试题
